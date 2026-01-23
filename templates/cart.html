@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Cart | NaMah Vastra</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">NaMah Vastra</div>
+  <ul class="nav-links">
+    <li><a href="/shop">Shop</a></li>
+  </ul>
+</nav>
+
+<section class="collection">
+  <h2>Your Cart</h2>
+
+  {% if cart_items %}
+    {% for item in cart_items %}
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/' + item.product.image) }}">
+        <h3>{{ item.product.name }}</h3>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Subtotal: ₹{{ item.subtotal }}</p>
+        <a href="/remove/{{ item.product.id }}" class="view-btn">Remove</a>
+      </div>
+    {% endfor %}
+
+    <h3>Total: ₹{{ total }}</h3>
+    <a href="/checkout" class="shop-btn">Proceed to Checkout</a>
+
+
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+</section>
+
+</body>
+</html>
