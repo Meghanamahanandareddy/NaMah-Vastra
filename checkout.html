@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout | NaMah Vastra</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-center">
+    <img src="assets/images/logo.jpg" alt="NaMah Vastra Logo">
+    <h1>NaMah Vastra</h1>
+  </div>
+
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="collection.html">Collection</a>
+    <a href="cart.html">Cart</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- CHECKOUT -->
+<section class="featured">
+  <h3>Checkout</h3>
+
+  <div style="max-width:420px; margin:0 auto;">
+
+    <!-- CUSTOMER DETAILS -->
+    <input id="name" type="text" placeholder="Full Name" required
+      style="width:100%; padding:10px; margin-bottom:10px;">
+
+    <input id="phone" type="tel" placeholder="Phone Number" required
+      style="width:100%; padding:10px; margin-bottom:10px;">
+
+    <textarea id="address" placeholder="Delivery Address" required
+      style="width:100%; padding:10px; margin-bottom:15px;"></textarea>
+
+    <!-- TOTAL -->
+    <h4 id="checkout-total" style="margin-bottom:20px;"></h4>
+
+    <!-- UPI PAYMENT -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <p style="font-weight:bold;">Pay via UPI</p>
+      <p>UPI ID: <strong>8919274675@axl</strong></p>
+
+      <img src="assets/images/upi-qr.jpg"
+           alt="UPI QR Code"
+           style="width:200px; margin:15px auto; display:block;">
+
+      <p style="font-size:14px;">
+        After payment, click the button below.
+      </p>
+    </div>
+
+    <!-- CONFIRM BUTTON -->
+    <button onclick="sendOrderEmail()" style="width:100%;">
+      I have completed the payment
+    </button>
+
+  </div>
+</section>
+
+<script>
+/* ========== EMAILJS INIT ========== */
+(function(){
+  emailjs.init("MqHiW1sPE3XS1Qmt7");   // 🔴 PASTE PUBLIC KEY HERE
+})();
+
+/* ========== SHOW TOTAL ========== */
+function showTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+  document.getElementById("checkout-total").innerText =
+    "Total Amount: ₹" + total;
+}
+
+/* ========== SEND ORDER EMAIL ========== */
+function sendOrderEmail() {
+
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let address = document.getElementById("address").value;
+
+  if (!name || !phone || !address) {
+    alert("Please fill all details");
+    return;
+  }
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  if (cart.length === 0) {
+    alert("Your cart is empty");
+    return;
+  }
+
+  let items = cart.map(item => `${item.name} - ₹${item.price}`).join(", ");
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  let params = {
+    name: name,
+    phone: phone,
+    address: address,
+    items: items,
+    total: total
+  };
+
+  emailjs.send(
+    "service_bn0lcb9",        // ✅ YOUR SERVICE ID
+    "template_a8gas7g",       // 🔴 PASTE TEMPLATE ID HERE
+    params
+  ).then(() => {
+    alert(
+      "Thank you for your order 💛\n\n" +
+      "We have received your order.\n" +
+      "Please allow us some time to verify the UPI payment.\n\n" +
+      "NaMah Vastra will contact you shortly."
+    );
+
+    localStorage.removeItem("cart");
+    window.location.href = "index.html";
+
+  }, (error) => {
+    alert("Failed to place order. Please try again.");
+    console.log(error);
+  });
+}
+
+showTotal();
+</script>
+
+</body>
+</html>

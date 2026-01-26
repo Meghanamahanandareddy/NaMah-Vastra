@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart | NaMah Vastra</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- HEADER (same on all pages) -->
+<header class="header">
+  <div class="header-center">
+    <img src="assets/images/logo.jpg" alt="NaMah Vastra Logo">
+    <h1>NaMah Vastra</h1>
+  </div>
+
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="collection.html">Collection</a>
+    <a href="cart.html">Cart</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<!-- CART SECTION -->
+<section class="featured">
+  <h3>Your Cart</h3>
+
+  <div id="cart-items"></div>
+
+  <h3 id="cart-total" style="margin-top:30px;"></h3>
+
+  <button onclick="goToCheckout()" style="margin-top:20px;">
+    Proceed to Checkout
+  </button>
+</section>
+
+<script src="assets/js/cart.js"></script>
+</body>
+</html>

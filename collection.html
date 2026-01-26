@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Collection | NaMah Vastra</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 40px;
+    }
+
+    .product-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .product-box img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .product-box h4 {
+      margin: 8px 0;
+      font-size: 18px;
+    }
+
+    .product-box p {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product-box button {
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="header-center">
+    <img src="assets/images/logo.jpg" alt="NaMah Vastra Logo">
+    <h1>NaMah Vastra</h1>
+  </div>
+
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="collection.html">Collection</a>
+    <a href="cart.html">Cart</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<section class="featured">
+  <h3>Our Collection</h3>
+  <div class="products" id="products"></div>
+</section>
+
+<script src="assets/js/cart.js"></script>
+
+<script>
+fetch("https://opensheet.elk.sh/1t0hgMPtvN-fcpWKBxlrd4Mia0G5JpPUwXGL7yuy-7QM/Sheet1")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("products");
+
+    data.forEach(item => {
+      container.innerHTML += `
+        <div class="product-box">
+          <img src="${item.image}" alt="${item.name}">
+          <h4>${item.name}</h4>
+          <p>₹${item.price}</p>
+          <button onclick="addToCart('${item.name}', ${item.price})">
+            Add to Cart
+          </button>
+        </div>
+      `;
+    });
+  })
+  .catch(err => console.error(err));
+</script>
+
+</body>
+</html>
